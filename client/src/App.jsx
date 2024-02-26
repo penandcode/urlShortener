@@ -5,7 +5,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import PageRedirect from "./components/PageRedirect";
 
-export const backend = { endpoint: "http://localhost:3000" };
+export const backend = { endpoint: "https://url-shortener-pi7x.onrender.com" };
 
 const router = createBrowserRouter([
   {
