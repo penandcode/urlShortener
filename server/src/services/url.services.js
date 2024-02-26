@@ -1,22 +1,19 @@
 const httpStatus = require("http-status");
 const Url = require("../models/url.model");
 const ApiError = require("../utils/ApiError");
-const { getUserById } = require("./user.services");
 const generateShort = require("../utils/generateShort")
 
 const addUrlToDB = async (data) => {
     if (!data.userId || !data.url) {
         throw new ApiError(httpStatus.BAD_REQUEST, "Enter all the required fields.")
     }
-    if (!data.short) {
-        data.short = generateShort();
+    if (data.short) {
         const urlTaken = await Url.isShortTaken(data.short);
         if (urlTaken) {
-            throw new ApiError(httpStatus.BAD_REQUEST, "Short URL is incorrect.")
+            throw new ApiError(httpStatus.BAD_REQUEST, "Url already exists.")
         }
-    }
-    else {
-        throw new ApiError(httpStatus.BAD_REQUEST, "Link already exists.")
+    } else {
+        data.short = generateShort()
     }
     const url = await Url.create(data);
     const result = await getAllURLfromDB(data.userId);
